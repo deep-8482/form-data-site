@@ -1,21 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Firebase Form</title>
-</head>
-<body>
-
-  <h2>Submit Your Data</h2>
-  <form onsubmit="submitData(); return false;">
-    <input id="name" placeholder="Enter your name" required /><br><br>
-    <input id="choice" placeholder="Enter your choice" required /><br><br>
-    <button type="submit">Submit</button>
-  </form>
-
-  <!-- Firebase SDKs -->
+  <title>Firebase Submission</title>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+</head>
+<body>
+  <h2>Submit Your Info</h2>
+  <form id="dataForm">
+    <input type="text" id="nameInput" placeholder="Your name" required><br>
+    <input type="text" id="choiceInput" placeholder="Your choice" required><br>
+    <button type="submit">Submit</button>
+  </form>
 
   <script>
     const firebaseConfig = {
@@ -28,29 +24,25 @@
       appId: "1:799953334775:web:c3f5dc1f9e90de73b9bef2"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
+    const db = firebase.database();
 
-    function submitData() {
-      const name = document.getElementById("name").value;
-      const choice = document.getElementById("choice").value;
+    document.getElementById("dataForm").addEventListener("submit", function (e) {
+      e.preventDefault();
 
-      database.ref("submissions").push({
+      const name = document.getElementById("nameInput").value;
+      const choice = document.getElementById("choiceInput").value;
+
+      db.ref("submissions").push({
         name: name,
         choice: choice
-      })
-      .then(() => {
-        alert("Data submitted successfully!");
-        document.getElementById("name").value = "";
-        document.getElementById("choice").value = "";
-      })
-      .catch((error) => {
-        console.error("Error saving data:", error);
-        alert("Failed to submit data.");
+      }).then(() => {
+        alert("Data submitted!");
+        document.getElementById("dataForm").reset();
+      }).catch((error) => {
+        alert("Error: " + error.message);
       });
-    }
+    });
   </script>
-
 </body>
 </html>
