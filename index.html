@@ -7,17 +7,18 @@
   <style>
     body {
       font-family: sans-serif;
-      background: #f2f2f2;
+      background: pink;
       padding: 40px;
+      text-transform: capitalize;
     }
 
     form {
-      background: white;
+      background: rgb(255, 221, 221);
       padding: 30px;
       max-width: 400px;
       margin: auto;
       border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
     }
 
     input, select, button {
@@ -34,18 +35,31 @@
       color: white;
       cursor: pointer;
     }
+
+    .headng{
+      text-align: center;
+      text-decoration: underline;
+    }
+
+    .natu{
+      text-align: center;
+    }
+
   </style>
 </head>
 <body>
   <form onsubmit="event.preventDefault(); submitData();">
-    <h2>Hi I Am Deep<br>Please Answer The Questions</h2>
-    <input type="text" id="username" placeholder="Your name" required />
-    <h3>Do You Love Me ?  or anyone</h3>
+    <h1 class="headng">please read all headings.</h1>
+    <p class="natu">this is for you natu cutie pie </p>
+    <h2 class="deep">my name is Deep not chotu😎 you natu</h2><p class="deep">(dhak natu thik thak answer dis❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️❤️)</p></h2>
+    <input type="text" id="username" placeholder="what is your name" required />
+    <input type="text" id="username 2" placeholder="what is my name" required />
+    <h3>Do You Like Me ?</h3>
     <select id="option">
-      <option value="NO">NO</option>
-      <option value="YES 1">YES 1</option>
-      <option value="YES 2">YES 2</option>
-      <option value="YES 3">YES YES YES</option>
+      <option value="YES">YES</option>
+      <option value="maybe">Maybe</option>
+      <option value="I Don't Know">I Don't Know</option>
+      <option value="Maybe I Don't Know">Maybe I Don't Know </option>
     </select>
     <button type="submit">Submit</button>
   </form>
@@ -87,6 +101,8 @@
           alert("❌ Error sending data");
         });
     };
+
+    
   </script>
 </body>
 </html>
