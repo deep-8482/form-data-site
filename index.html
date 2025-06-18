@@ -1,53 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Firebase Submission</title>
+  <title>Send Data to Firebase</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f2f2f2;
+      padding: 40px;
+    }
+
+    form {
+      background: white;
+      padding: 30px;
+      max-width: 400px;
+      margin: auto;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+
+    input, select, button {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #28a745;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <form onsubmit="event.preventDefault(); submitData();">
+    <h2>Hi I Am Deep<br>Please Answer The Questions</h2>
+    <input type="text" id="username" placeholder="Your name" required />
+    <h3>Do You Like Me ?</h3>
+    <select id="option">
+      <option value="NO">NO</option>
+      <option value="NO">NO</option>
+      <option value="NO">NO</option>
+      <option value="yes">YES</option>
+    </select>
+    <button type="submit">Submit</button>
+  </form>
+
   <script type="module">
-    // Firebase v9+ Modular SDK Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getDatabase, ref, push } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js";
 
-    // Your Firebase configuration
     const firebaseConfig = {
       apiKey: "AIzaSyDP4W466FiYZevlqoTYz8cWSkIuBJYzcxE",
       authDomain: "userinputdb.firebaseapp.com",
       databaseURL: "https://userinputdb-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "userinputdb",
-      storageBucket: "userinputdb.firebasestorage.app",
+      storageBucket: "userinputdb.appspot.com",
       messagingSenderId: "799953334775",
       appId: "1:799953334775:web:c3f5dc1f9e90de73b9bef2"
     };
 
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    const db = getDatabase(app);
 
-    // Submit data
     window.submitData = () => {
-      const name = document.getElementById("name").value;
-      const choice = document.getElementById("choice").value;
+      const name = document.getElementById("username").value;
+      const option = document.getElementById("option").value;
 
-      const submissionsRef = ref(database, 'submissions');
-      push(submissionsRef, {
-        name,
-        choice
-      })
-      .then(() => {
-        alert("Data submitted successfully!");
-        document.getElementById("form").reset();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      const data = {
+        name: name,
+        option: option,
+        timestamp: new Date().toISOString()
+      };
+
+      push(ref(db, "user_inputs"), data)
+        .then(() => {
+          alert("✅ Data sent to Firebase!");
+          document.querySelector("form").reset();
+        })
+        .catch((error) => {
+          console.error(error);
+          alert("❌ Error sending data");
+        });
     };
   </script>
-</head>
-<body>
-  <h2>Submit Your Info</h2>
-  <form id="form" onsubmit="event.preventDefault(); submitData();">
-    <input type="text" id="name" placeholder="Enter your name" required><br><br>
-    <input type="text" id="choice" placeholder="Enter your choice" required><br><br>
-    <button type="submit">Submit</button>
-  </form>
 </body>
 </html>
