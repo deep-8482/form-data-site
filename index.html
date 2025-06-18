@@ -49,6 +49,11 @@
     .deep {
       text-align: center;
     }
+
+    #status {
+      color: blue;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
@@ -70,6 +75,7 @@
     </select>
 
     <button type="submit">Submit</button>
+    <p id="status"></p>
   </form>
 
   <script type="module">
@@ -94,10 +100,13 @@
       const myname = document.getElementById("username2").value;
       const option = document.getElementById("option").value;
 
+      const status = document.getElementById("status");
+      status.innerText = "Submitting... please wait 💌";
+
       const data = {
-        name: name,
-        myname: myname,
-        option: option,
+        name,
+        myname,
+        option,
         timestamp: new Date().toISOString()
       };
 
@@ -105,10 +114,12 @@
         .then(() => {
           alert("✅ I LOVE YOU RINA (CHOTU)!");
           document.querySelector("form").reset();
+          status.innerText = "";
         })
         .catch((error) => {
           console.error(error);
           alert("❌ Error sending data");
+          status.innerText = "❌ Failed to send. Try again.";
         });
     };
   </script>
