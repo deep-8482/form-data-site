@@ -1,52 +1,56 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>User Form</title>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+  <meta charset="UTF-8">
+  <title>Firebase Form</title>
 </head>
 <body>
-  <h2>Submit Something</h2>
-  <form id="userForm">
-    <input type="text" id="textInput" placeholder="Type something" required><br><br>
-    <select id="dropdown">
-      <option value="Option 1">Option 1</option>
-      <option value="Option 2">Option 2</option>
-      <option value="Option 3">Option 3</option>
-    </select><br><br>
+
+  <h2>Submit Your Data</h2>
+  <form onsubmit="submitData(); return false;">
+    <input id="name" placeholder="Enter your name" required /><br><br>
+    <input id="choice" placeholder="Enter your choice" required /><br><br>
     <button type="submit">Submit</button>
   </form>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+
   <script>
     const firebaseConfig = {
-  apiKey: "AIzaSyDP4W466FiYZevlqoTYz8cWSkIuBJYzcxE",
-  authDomain: "userinputdb.firebaseapp.com",
-  databaseURL: "https://userinputdb-default-rtdb.asia-southeast1.firebasedatabase.app",
-  projectId: "userinputdb",
-  storageBucket: "userinputdb.appspot.com", // ✅ Fixed this line
-  messagingSenderId: "799953334775",
-  appId: "1:799953334775:web:c3f5dc1f9e90de73b9bef2"
-};
-
+      apiKey: "AIzaSyDP4W466FiYZevlqoTYz8cWSkIuBJYzcxE",
+      authDomain: "userinputdb.firebaseapp.com",
+      databaseURL: "https://userinputdb-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "userinputdb",
+      storageBucket: "userinputdb.appspot.com",
+      messagingSenderId: "799953334775",
+      appId: "1:799953334775:web:c3f5dc1f9e90de73b9bef2"
+    };
 
     // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const database = firebase.database();
 
-    // Form submit handler
-    document.getElementById('userForm').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const text = document.getElementById('textInput').value;
-      const choice = document.getElementById('dropdown').value;
+    function submitData() {
+      const name = document.getElementById("name").value;
+      const choice = document.getElementById("choice").value;
 
-      const newRef = database.ref('submissions').push();
-      newRef.set({ text: text, choice: choice })
-        .then(() => {
-          alert('Submitted!');
-          document.getElementById('userForm').reset();
-        })
-        .catch((err) => alert('Error: ' + err));
-    });
+      database.ref("submissions").push({
+        name: name,
+        choice: choice
+      })
+      .then(() => {
+        alert("Data submitted successfully!");
+        document.getElementById("name").value = "";
+        document.getElementById("choice").value = "";
+      })
+      .catch((error) => {
+        console.error("Error saving data:", error);
+        alert("Failed to submit data.");
+      });
+    }
   </script>
+
 </body>
 </html>
