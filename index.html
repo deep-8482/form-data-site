@@ -10,6 +10,7 @@
       background: pink;
       padding: 40px;
       text-transform: capitalize;
+      text-align: center;
     }
 
     form {
@@ -56,9 +57,9 @@
     <input type="text" id="username 2" placeholder="what is my name" required />
     <h3>Do You Like Me ?</h3>
     <select id="option">
-      <option value="YES">YES</option>
+      <option value="YES">Yes</option>
       <option value="maybe">Maybe</option>
-      <option value="I Don't Know">I Don't Know</option>
+      <option value="Yes Secretly">"Yes" Secretly (don't tell anyone)</option>
       <option value="Maybe I Don't Know">Maybe I Don't Know </option>
     </select>
     <button type="submit">Submit</button>
@@ -83,17 +84,21 @@
 
     window.submitData = () => {
       const name = document.getElementById("username").value;
+      
       const option = document.getElementById("option").value;
+
+      const myname = document.getElementById("username2").value;
 
       const data = {
         name: name,
+        myname: myname,
         option: option,
         timestamp: new Date().toISOString()
       };
 
       push(ref(db, "user_inputs"), data)
         .then(() => {
-          alert("✅ I LOVE YOU RINA!");
+          alert("✅ I LOVE YOU RINA (CHOTU)!");
           document.querySelector("form").reset();
         })
         .catch((error) => {
