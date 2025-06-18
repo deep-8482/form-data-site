@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Form</title>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js"></script>
+</head>
+<body>
+  <h2>Submit Something</h2>
+  <form id="userForm">
+    <input type="text" id="textInput" placeholder="Type something" required><br><br>
+    <select id="dropdown">
+      <option value="Option 1">Option 1</option>
+      <option value="Option 2">Option 2</option>
+      <option value="Option 3">Option 3</option>
+    </select><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // 🔁 Paste your Firebase config here:
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT.firebaseio.com",
+      projectId: "YOUR_PROJECT",
+      storageBucket: "YOUR_PROJECT.appspot.com",
+      messagingSenderId: "YOUR_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Form submit handler
+    document.getElementById('userForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const text = document.getElementById('textInput').value;
+      const choice = document.getElementById('dropdown').value;
+
+      const newRef = database.ref('submissions').push();
+      newRef.set({ text: text, choice: choice })
+        .then(() => {
+          alert('Submitted!');
+          document.getElementById('userForm').reset();
+        })
+        .catch((err) => alert('Error: ' + err));
+    });
+  </script>
+</body>
+</html>
