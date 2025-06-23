@@ -29,6 +29,7 @@
       font-size: 16px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      
     }
 
     button {
@@ -108,7 +109,7 @@
         name,
         myname,
         option,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toLocaleString()
       };
 
       push(ref(db, "user_inputs"), data)
@@ -123,6 +124,10 @@
           status.innerText = "❌ Failed to send. Try again.";
         });
     };
+
+
+    
   </script>
+ 
 </body>
 </html>
